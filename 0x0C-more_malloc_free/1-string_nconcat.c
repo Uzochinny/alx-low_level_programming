@@ -1,17 +1,47 @@
 #include <stdlib.h>
-#include <string.h>
+#include <stdio.h>
+#include "main.h"
+/**
+ * string_nconcat - concatenates 2 strings into a new string,
+ * taking the first n from string 2. If n>strlen(s2),
+ * use whole string s2.
+ *
+ * @s1: first string
+ * @s2: second string
+ * @n: number of characters to take from second string
+ *
+ * Return: new string, or null on failure
+ */
+char *string_nconcat(char *s1, char *s2, unsigned int n)
+{
+	unsigned int len1, len2, i;
+	char *ptr, *ret;
 
-char *string_nconcat(char *s1, char *s2, unsigned int n) {
-    if (!s1) s1 = "";
-    if (!s2) s2 = "";
-    size_t len1 = strlen(s1);
-    size_t len2 = strlen(s2);
-    if (n >= len2) n = len2;
-    char *result = malloc(len1 + n + 1);
-    if (!result) return NULL;
-    memcpy(result, s1, len1);
-    memcpy(result + len1, s2, n);
-    result[len1 + n] = '\0';
-    return result;
+	if (!s1)
+		s1 = "";
+	if (!s2)
+		s2 = "";
+
+	for (len1 = 0, ptr = s1; *ptr; ptr++)
+		len1++;
+	for (len2 = 0, ptr = s2; *ptr; ptr++)
+		len2++;
+	if (n > len2)
+		n = len2;
+
+	ret = malloc((len1 + n + 1) * sizeof(char));
+	if (!ret)
+		return (0);
+
+	ptr = ret;
+	while (*s1)
+		*ptr++ = *s1++;
+	i = 0;
+	while (i < n)
+	{
+		*ptr++ = s2[i++];
+	}
+	*ptr = 0;
+
+	return (ret);
 }
-
